@@ -12,7 +12,7 @@
 ## 系统要求
 
 ### 操作系统
-- Linux 操作系统（内核版本 >= 4.18）
+- Linux 操作系统（内核版本 >= 5.7）
   - 需要启用 eBPF 和 XDP 相关内核配置
   - 推荐使用 Ubuntu 20.04 或更新版本
 
@@ -44,7 +44,7 @@
 1. 从 Relase 页面下载编译好的, 然后运行
 2. 克隆项目代码：
 ```bash
-git clone <repository_url>
+git clone https://github.com/zzhirong/traffic_aggregation
 cd traffic_aggregation && make build
 ```
 
