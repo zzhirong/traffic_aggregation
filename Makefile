@@ -13,6 +13,7 @@ deps:
 	@echo "正在安装系统依赖..."
 	sudo apt-get update
 	sudo apt-get install --reinstall -y linux-headers-$(uname -r) linux-libc-dev llvm clang libbpf-dev
+	go mod download
 
 # 编译 eBPF 程序
 generate:

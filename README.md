@@ -40,27 +40,12 @@
 - github.com/cilium/ebpf - eBPF 程序加载和管理
 - github.com/vishvananda/netlink - 网络接口操作
 
-## 安装步骤
-
-1. 克隆项目代码：
+## 安装步骤(二选一)
+1. 从 Relase 页面下载编译好的, 然后运行
+2. 克隆项目代码：
 ```bash
 git clone <repository_url>
-cd traffic_aggregation
-```
-
-2. 安装依赖：
-```bash
-go mod download
-```
-
-3. 编译 eBPF 程序：
-```bash
-go generate
-```
-
-4. 构建项目：
-```bash
-go build -o traffic-aggregator
+cd traffic_aggregation && make build
 ```
 
 ## 使用方法
