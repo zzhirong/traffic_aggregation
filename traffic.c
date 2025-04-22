@@ -35,11 +35,16 @@ int traffic_monitor(struct xdp_md *ctx) {
     __u64 *bytes;
     __u64 new_bytes = 1;
 
+    // 使用IP头部的total_length字段获取完整的IP包大小
+    __u64 packet_size = (__u64)bpf_ntohs(iph->tot_len);
+
     // 统计源IP的流量
     ip = iph->saddr;
     bytes = bpf_map_lookup_elem(&ip_stats, &ip);
     if (bytes) {
-        new_bytes = *bytes + (data_end - data);
+        new_bytes = *bytes + packet_size;
+    } else {
+        new_bytes = packet_size;
     }
     bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
 
@@ -47,7 +52,9 @@ int traffic_monitor(struct xdp_md *ctx) {
     ip = iph->daddr;
     bytes = bpf_map_lookup_elem(&ip_stats, &ip);
     if (bytes) {
-        new_bytes = *bytes + (data_end - data);
+        new_bytes = *bytes + packet_size;
+    } else {
+        new_bytes = packet_size;
     }
     bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
 
