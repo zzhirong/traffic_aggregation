@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 #include <linux/bpf.h>
 #include <linux/if_ether.h>
 #include <linux/ip.h>
@@ -51,4 +54,4 @@ int traffic_monitor(struct xdp_md *ctx) {
     return XDP_PASS;
 }
 
-char LICENSE[] SEC("license") = "GPL";
+char LICENSE[] SEC("license") = "MIT";

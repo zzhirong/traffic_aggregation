@@ -14,14 +14,12 @@ deps:
 	sudo apt-get update
 	sudo apt-get install --reinstall -y linux-headers-$(uname -r) linux-libc-dev llvm clang libbpf-dev
 
-# 生成 eBPF 代码
+# 编译 eBPF 程序
 generate:
-	@echo "正在生成 eBPF 代码..."
 	go generate
 
 # 构建项目
 build: generate
-	@echo "正在构建项目..."
 	go build -o traffic-aggregator
 
 # 运行项目
