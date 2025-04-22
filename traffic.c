@@ -9,7 +9,7 @@
 #include <bpf/bpf_endian.h>
 
 struct {
-    __uint(type, BPF_MAP_TYPE_HASH);
+    __uint(type, BPF_MAP_TYPE_LRU_HASH);
     __uint(max_entries, 10000);
     __type(key, __u32);      // IPv4 地址
     __type(value, __u64);    // 字节计数
@@ -42,21 +42,21 @@ int traffic_monitor(struct xdp_md *ctx) {
     ip = iph->saddr;
     bytes = bpf_map_lookup_elem(&ip_stats, &ip);
     if (bytes) {
-        new_bytes = *bytes + packet_size;
+        __sync_fetch_and_add(bytes, packet_size);
     } else {
         new_bytes = packet_size;
+        bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
     }
-    bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
 
     // 统计目标IP的流量
     ip = iph->daddr;
     bytes = bpf_map_lookup_elem(&ip_stats, &ip);
     if (bytes) {
-        new_bytes = *bytes + packet_size;
+        __sync_fetch_and_add(bytes, packet_size);
     } else {
         new_bytes = packet_size;
+        bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
     }
-    bpf_map_update_elem(&ip_stats, &ip, &new_bytes, BPF_ANY);
 
     return XDP_PASS;
 }
