@@ -52,11 +52,11 @@ cd traffic_aggregation && make build
 
 1. 运行程序（需要 root 权限）：
 ```bash
-sudo ./traffic-aggregator -iface <网络接口名称>
+sudo ./traffic-aggregator -iface <网络接口名称> [-n 30]
 ```
 例如：
 ```bash
-sudo ./traffic-aggregator -iface eth0
+sudo ./traffic-aggregator -iface eth0 -n 30 # 监控 eth0 接口，显示流量最多的前 30 个 IP
 ```
 
 2. 打开浏览器访问统计界面：
