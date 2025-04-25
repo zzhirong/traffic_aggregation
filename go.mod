@@ -4,6 +4,7 @@ go 1.23.1
 
 require (
 	github.com/cilium/ebpf v0.18.0
+	github.com/dustin/go-humanize v1.0.1
 	github.com/vishvananda/netlink v1.3.0
 )
 

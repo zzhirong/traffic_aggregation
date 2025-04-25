@@ -14,6 +14,7 @@ import (
 
 	"github.com/cilium/ebpf/link"
 	"github.com/vishvananda/netlink"
+	humanize "github.com/dustin/go-humanize"
 )
 
 type IPStats struct {
@@ -57,13 +58,16 @@ var tmpl = `
 				{{range .}}
 				<tr>
 					<td>{{.IP}}</td>
-					<td>{{.Bytes}}</td>
+					<td>{{formatBytes .Bytes}}</td>
 				</tr>
 				{{end}}
 			</table>
 		</body>
 		</html>
 		`
+func formatBytes(bytes uint64) string{
+	return humanize.Bytes(bytes)
+}
 
 func main() {
 	var ifaceName string
@@ -98,7 +102,9 @@ func main() {
 	}
 	defer xdpLink.Close()
 
-	t := template.Must(template.New("stats").Parse(tmpl))
+	t := template.Must(template.New("stats").Funcs(template.FuncMap{
+		"formatBytes": formatBytes,
+	}).Parse(tmpl))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var stats []IPStats
 		var key uint32

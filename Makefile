@@ -33,6 +33,9 @@ test:
 	@echo "正在运行测试..."
 	go test ./...
 
+relase: build
+	tar -czvf ./traffic-aggregator-amd64-linux.tar.gz ./traffic-aggregator
+
 # 清理编译文件
 clean:
 	@echo "正在清理编译文件..."
