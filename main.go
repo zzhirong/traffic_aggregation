@@ -108,15 +108,19 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var stats []IPStats
 		var key uint32
-		var value uint64
+		var values []uint64 // per cpu
 
 		iter := objs.IpStats.Iterate()
-		for iter.Next(&key, &value) {
+		for iter.Next(&key, &values) {
 			ip := make(net.IP, 4)
 			binary.LittleEndian.PutUint32(ip, key)
+			var total uint64
+			for _, value := range values{
+				total += value
+			}
 			stats = append(stats, IPStats{
 				IP:    ip.String(),
-				Bytes: value,
+				Bytes: total,
 			})
 		}
 
