@@ -2,6 +2,9 @@
 
 这是一个基于 eBPF 技术的网络流量统计工具，可以实时监控网络接口上的 IP 流量，并通过 Web 界面展示统计结果。
 
+## 界面预览
+![Image 2025-6-6 at 10 53](https://github.com/user-attachments/assets/6b36df17-f084-4a39-81b5-0f440e28747a)
+
 ## 功能特点
 
 - 使用 eBPF/XDP 技术，高效地监控网络流量
